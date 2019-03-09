@@ -8,8 +8,7 @@ from api import ping_response, start_response, move_response, end_response
 @bottle.route('/')
 def index():
     return '''
-    Battlesnake documentation can be found at
-       <a href="https://docs.battlesnake.io">https://docs.battlesnake.io</a>.
+    Snake bot is OK, can got to fight now.
     '''
 
 @bottle.route('/static/<path:path>')
