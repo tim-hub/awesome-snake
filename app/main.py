@@ -4,6 +4,7 @@ import random
 import bottle
 
 from app.api import ping_response, start_response, move_response, end_response
+from app.db import conn
 
 @bottle.route('/')
 def index():
@@ -77,6 +78,8 @@ def end():
 application = bottle.default_app()
 
 if __name__ == '__main__':
+    conn.cursor().execute()
+
     bottle.run(
         application,
         host=os.getenv('IP', '0.0.0.0'),
