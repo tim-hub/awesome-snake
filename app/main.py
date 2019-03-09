@@ -8,7 +8,7 @@ from api import ping_response, start_response, move_response, end_response
 @bottle.route('/')
 def index():
     return '''
-    Snake bot is OK, can got to fight now.
+    Snake bot is OK, can got to fight now. dev
     '''
 
 @bottle.route('/static/<path:path>')
