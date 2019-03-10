@@ -1,4 +1,5 @@
-from .api import ping_response
+from app.api import ping_response
+
 def test_dummy_test():
     assert True
 
