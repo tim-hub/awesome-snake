@@ -10,7 +10,7 @@ conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
 def init_db(init_data):
-    cur = conn.cursor()
+
 
     QUERY_CREATE_GAME = '''
         CREATE TABLE IF NOT EXISTS games (

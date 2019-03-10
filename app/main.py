@@ -4,9 +4,8 @@ import random
 import bottle
 
 from app.api import ping_response, start_response, move_response, end_response
-from app.db import init_db, insert_game, insert_turn, close_db
-
-db_cur = None
+# from app.db import init_db, insert_game, insert_turn, close_db
+# db_cur = None
 
 @bottle.route('/')
 def index():
@@ -43,7 +42,7 @@ def start():
     """
     print(json.dumps(data))
     color = "#00FF00"
-    db_cur = init_db(json.dumps(data))
+    # db_cur = init_db(json.dumps(data))
     return start_response(color)
 
 
@@ -72,7 +71,7 @@ def end():
         clean up any stateful objects here.
     """
     print(json.dumps(data))
-    close_db(db_cur)
+    # close_db(db_cur)
     return end_response()
 
 # Expose WSGI app (so gunicorn can find it)
