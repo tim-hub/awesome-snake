@@ -3,7 +3,11 @@ import os
 import random
 import bottle
 
+import pprint
+pp = pprint.PrettyPrinter(indent=2)
+
 from app.api import ping_response, start_response, move_response, end_response
+from app.brain import process_data
 # from app.db import init_db, insert_game, insert_turn, close_db
 # db_cur = None
 
@@ -54,10 +58,11 @@ def move():
     TODO: Using the data from the endpoint request object, your
             snake AI must choose a direction to move in.
     """
-    print(json.dumps(data))
+    pp.pprint(data)
 
-    directions = ['up', 'down', 'left', 'right']
-    direction = random.choice(directions)
+    # directions = ['up', 'down', 'left', 'right']
+    direction = process_data(dict(data))
+    print(direction)
 
     return move_response(direction)
 
@@ -70,7 +75,8 @@ def end():
     TODO: If your snake AI was stateful,
         clean up any stateful objects here.
     """
-    print(json.dumps(data))
+    print('#####end')
+    pp.pprint(dict(data))
     # close_db(db_cur)
     return end_response()
 
