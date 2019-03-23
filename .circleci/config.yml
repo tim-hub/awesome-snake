@@ -47,7 +47,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            export APP_SETTINGS="config.DevelopmentConfig"
+            source .env
             . venv/bin/activate
             pip install -U pytest
             pytest
