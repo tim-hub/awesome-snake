@@ -28,5 +28,3 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
-    SECRET_KEY = os.environ["secret"]
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
