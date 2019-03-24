@@ -11,27 +11,23 @@ def index():
 
 @app.route('/ping')
 def ping():
-    return Response({'Server is running.'}, status=200, mimetype='application/json')
+    return {'message': 'Server is running.'}
 
 @app.route('/start')
 def start():
-    return Response({'Starting the game.'}, status=200, mimetype='application/json')
+    return {'message': 'Starting the game.'}
 
 
 @app.route('/move')
 def move():
     logging.info(request.data)
-    return Response(
-        {
-            "move": "left"
-        },
-        status=200,
-        mimetype='application/json')
+    return  { "move": "left" }
+
 
 
 @app.route('/end')
 def end():
-    return Response({'Ending the game.'}, status=200, mimetype='application/json')
+    return {'message':'Ending the game.'}
 
 
 @app.route('/admin')
