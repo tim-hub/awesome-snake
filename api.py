@@ -1,6 +1,6 @@
 import uuid
 from flask import request, Response
-from app import app, db, logging
+from app import app, db, logger
 from models import Game, Turn, GameSchema, TurnSchema
 
 @app.route('/', methods=['POST', 'GET'])
@@ -15,12 +15,42 @@ def ping():
 
 @app.route('/start', methods=['POST', 'GET'])
 def start():
-    return {'message': 'Starting the game.'}
+    logger.info('start a game')
+    if request.method == 'POST':
+        data = request.data
+        game_id = data.get("game").get("id", -1)
+        game_info = {
+            'you': data.get('you', None),
+            'board': data.get('board', None)
+        }
+
+        game = Game(game_uuid=game_id, game_info=game_info)
+        db.session.add(game)
+        db.session.commit()
+    return {
+        "color": "#ffffff",
+        "headType": "bendr",
+        "tailType": "pixel",
+        'message': 'Starting the game.'
+    }
 
 
 @app.route('/move', methods=['POST', 'GET'])
 def move():
-    logging.info(request.data)
+    logger.info('start a move')
+    if request.method =='POST':
+        data = request.data
+        game_uuid = data.get("game").get("id", -1)
+        game = Game.query.filter_by(game_uuid=game_uuid).first()
+        turn_id = data.get("turn", -1)
+        turn_info = {
+            'you': data.get('you', None),
+            'board': data.get('board', None)
+        }
+
+        turn = Turn(turn=turn_id, turn_info=turn_info, game=game)
+        db.session.add(turn)
+        db.session.commit()
     return  { "move": "left" }
 
 

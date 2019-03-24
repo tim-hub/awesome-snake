@@ -13,6 +13,8 @@ ma = Marshmallow(app)
 CORS(app)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger('snake AI bot')
+logger.info('app started')
 
 from api import *
 
