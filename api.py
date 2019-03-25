@@ -75,13 +75,13 @@ def move():
         # pp.pprint(all_bodies)
         # pp.pprint(food)
         the_map = []
-        for i in range(width):
+        for i in range(height):
             the_row = []
-            for j in range(height):
+            for j in range(width)   :
                 flag = ' '
                 tmp_pos = {
-                    'x': i+1,
-                    'y': j+1
+                    'x': j,
+                    'y': i
                 }
                 if tmp_pos in all_bodies:
                     flag = 'b'
