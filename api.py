@@ -59,37 +59,7 @@ def move():
         db.session.commit()
         # pp.pprint(data)
 
-        # analyze the map and bot
-        height = board.get('height', 0)
-        width = board.get('width', 0)
-
-        snakes = board.get('snakes', [])
-        all_body_list = [b.get('body', []) for b in snakes]
-        all_bodies = list(reduce(lambda x, y: x+y, all_body_list))
-        food = board.get('food', [])
-
-        you_body = you.get('body', [])
-        you_head = you_body[0]
-
-
-        # pp.pprint(all_bodies)
-        # pp.pprint(food)
-        the_map = []
-        for i in range(height):
-            the_row = []
-            for j in range(width)   :
-                flag = ' '
-                tmp_pos = {
-                    'x': j,
-                    'y': i
-                }
-                if tmp_pos in all_bodies:
-                    flag = 'b'
-                elif tmp_pos in food:
-                    flag = 'f'
-                the_row.append(flag)
-            the_map.append(the_row)
-        pp.pprint(the_map)
+        get_map(board, you)
 
     return  { "move": "left" }
 
@@ -99,6 +69,13 @@ def move():
 
 @app.route('/end', methods=['POST', 'GET'])
 def end():
+    if request.method =='POST':
+        # get all data
+        data = request.data
+        you = data.get('you', None)
+        board = data.get('board', None)
+
+        get_map(board, you)
     return {'message':'Ending the game.'}
 
 
@@ -114,3 +91,35 @@ def admin():
             'scans': TurnSchema(many=True).dump(turns)[0]
         }
     }
+
+def get_map(board, you):
+    # analyze the map and bot
+    height = board.get('height', 0)
+    width = board.get('width', 0)
+
+    snakes = board.get('snakes', [])
+    all_body_list = [b.get('body', []) for b in snakes]
+    all_bodies = list(reduce(lambda x, y: x + y, all_body_list))
+    food = board.get('food', [])
+
+    you_body = you.get('body', [])
+    you_head = you_body[0]
+
+    # pp.pprint(all_bodies)
+    # pp.pprint(food)
+    the_map = []
+    for i in range(height):
+        the_row = []
+        for j in range(width):
+            flag = ' '
+            tmp_pos = {
+                'x': j,
+                'y': i
+            }
+            if tmp_pos in all_bodies:
+                flag = 'b'
+            elif tmp_pos in food:
+                flag = 'f'
+            the_row.append(flag)
+        the_map.append(the_row)
+    pp.pprint(the_map)
