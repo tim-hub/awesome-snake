@@ -1,9 +1,8 @@
 import pprint
 from flask import request, Response
-import sqlalchemy
 from app import app, db, logger
 from models import Game, Turn, GameSchema, TurnSchema
-from bot import get_map
+from bot import make_a_decision
 
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -67,9 +66,9 @@ def move():
             logger.debug('db is not running.')
         # pp.pprint(data)
 
-        get_map(board, you)
+    return make_a_decision(board, you)
 
-    return  { "move": "left" }
+
 
 
 
@@ -83,7 +82,7 @@ def end():
         you = data.get('you', None)
         board = data.get('board', None)
 
-        get_map(board, you)
+        make_a_decision(board, you)
     return {'message':'Ending the game.'}
 
 
