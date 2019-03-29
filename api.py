@@ -34,7 +34,7 @@ def start():
         except Exception:
             logger.debug('db is not running.')
     return {
-        "color": "#ffffff",
+        "color": "#800000",
         "headType": "safe",
         "tailType": "skinny",
         'message': 'Starting the game.'
