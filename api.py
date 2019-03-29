@@ -1,8 +1,9 @@
-from functools import reduce
 import pprint
 from flask import request, Response
+import sqlalchemy
 from app import app, db, logger
 from models import Game, Turn, GameSchema, TurnSchema
+from bot import get_map
 
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -26,14 +27,16 @@ def start():
             'you': data.get('you', None),
             'board': data.get('board', None)
         }
-
-        game = Game(game_uuid=game_id, game_info=game_info)
-        db.session.add(game)
-        db.session.commit()
+        try:
+            game = Game(game_uuid=game_id, game_info=game_info)
+            db.session.add(game)
+            db.session.commit()
+        except Exception:
+            logger.debug('db is not running.')
     return {
         "color": "#ffffff",
-        "headType": "bendr",
-        "tailType": "pixel",
+        "headType": "safe",
+        "tailType": "skinny",
         'message': 'Starting the game.'
     }
 
@@ -45,7 +48,7 @@ def move():
         # get all data
         data = request.data
         game_uuid = data.get("game").get("id", -1)
-        game = Game.query.filter_by(game_uuid=game_uuid).first()
+
         turn_id = data.get("turn", -1)
         you = data.get('you', None)
         board = data.get('board', None)
@@ -53,10 +56,15 @@ def move():
             'you': you,
             'board': board
         }
-        # store to db
-        turn = Turn(turn=turn_id, turn_info=turn_info, game=game)
-        db.session.add(turn)
-        db.session.commit()
+
+        try:
+            # store to db
+            game = Game.query.filter_by(game_uuid=game_uuid).first()
+            turn = Turn(turn=turn_id, turn_info=turn_info, game=game)
+            db.session.add(turn)
+            db.session.commit()
+        except Exception:
+            logger.debug('db is not running.')
         # pp.pprint(data)
 
         get_map(board, you)
@@ -92,34 +100,3 @@ def admin():
         }
     }
 
-def get_map(board, you):
-    # analyze the map and bot
-    height = board.get('height', 0)
-    width = board.get('width', 0)
-
-    snakes = board.get('snakes', [])
-    all_body_list = [b.get('body', []) for b in snakes]
-    all_bodies = list(reduce(lambda x, y: x + y, all_body_list))
-    food = board.get('food', [])
-
-    you_body = you.get('body', [])
-    you_head = you_body[0]
-
-    # pp.pprint(all_bodies)
-    # pp.pprint(food)
-    the_map = []
-    for i in range(height):
-        the_row = []
-        for j in range(width):
-            flag = ' '
-            tmp_pos = {
-                'x': j,
-                'y': i
-            }
-            if tmp_pos in all_bodies:
-                flag = 'b'
-            elif tmp_pos in food:
-                flag = 'f'
-            the_row.append(flag)
-        the_map.append(the_row)
-    pp.pprint(the_map)
