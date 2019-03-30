@@ -9,7 +9,10 @@ pp = pprint.PrettyPrinter(indent=2)
 @app.route('/', methods=['POST', 'GET'])
 def index():
     return '''
-    Snake bot is OK, can got to fight now. This is the dev version.
+    Awesome Snake bot is OK, can got to fight now. This is the dev version.
+    
+    
+    This bot is built through Python/Flask, source code at https://github.com/tim-hub/awesome-snake
     '''
 
 @app.route('/ping', methods=['POST', 'GET'])
