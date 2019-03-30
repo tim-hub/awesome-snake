@@ -1,5 +1,6 @@
 # Awesome Battle Snake Bot
-[![Build Status](https://travis-ci.com/tim-hub/battle-snake-bot.svg?branch=master)](https://travis-ci.com/tim-hub/battle-snake-bot)
+[![CircleCI](https://circleci.com/gh/tim-hub/awesome-snake.svg?style=svg)](https://circleci.com/gh/tim-hub/awesome-snake)
+[![CodeFactor](https://www.codefactor.io/repository/github/tim-hub/awesome-snake/badge?style=flat-square)](https://www.codefactor.io/repository/github/tim-hub/awesome-snake)
 
 A simple [Battlesnake AI](http://battlesnake.io) written in Python. 
 
