@@ -1,4 +1,5 @@
 from functools import reduce
+import random
 import pprint
 
 pp = pprint.PrettyPrinter(indent=2)
@@ -44,6 +45,12 @@ def get_map(height, width, all_bodies, food, heads=[]):
 
 
 def survive(the_head, the_map_dict):
+    """
+    Survive Strategy, only evaluate the tiles around the head.
+    :param the_head:
+    :param the_map_dict:
+    :return:
+    """
     x = the_head.get('x')
     y = the_head.get('y')
     arounds = [(x, y + 1), (x, y - 1), (x - 1, y), (x + 1, y)]
@@ -58,16 +65,15 @@ def survive(the_head, the_map_dict):
     for around in arounds:
         decisions.setdefault(around, 0)
         flag = the_map_dict.get(around, False)
-        if flag:
-            if flag == 'f':
-                decisions[around] = 1
-            elif flag == 'b':
-                decisions[around] = -1
-            else:
-                decisions[around] = 0
-        else:
+        if not flag:
             decisions[around] = -100
+        elif flag == 'f':
+            decisions[around] = 1
+        elif flag == 'b':
+            decisions[around] = -1
+        else:
+            decisions[around] = 0
     pp.pprint(decisions)
-    decision = max(decisions.keys(), key=(lambda key: decisions[key]))
+    decision = max(decisions.keys(), key=(lambda key: decisions[key] + random.random()))
     print(decision)
     return {"move": directions[decision]}
