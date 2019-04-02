@@ -11,7 +11,7 @@ A simple [Battlesnake AI](http://battlesnake.io) bot written in Python.
 This AI client uses the Flask to serve requests and the [gunicorn web server](http://gunicorn.org/) for running bottle on Heroku. Dependencies are listed in [requirements.txt](requirements.txt).
 
 0. set your `.env` (ref `.env.example`)
-1. `LC_ALL=en_US.utf-8;LANG=en_US.utf-8;APP_SETTINGS=config.DevelopmentConfig`
+1. `export LC_ALL=en_US.utf-8;LANG=en_US.utf-8;APP_SETTINGS=config.DevelopmentConfig`
 2. `flask run`
 3. - or `gunicorn app:app` if you got gunicorn locally
 
